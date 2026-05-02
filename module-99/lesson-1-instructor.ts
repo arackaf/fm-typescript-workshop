@@ -1,17 +1,19 @@
+import { Expect, ExpectNever } from "../util/test-utils";
+
 type TypesMatch<T, U> = [T] extends [U]
   ? [U] extends [T]
     ? true
     : false
   : false;
 
-type TupleOneProperSubset<T, U> = T extends []
-  ? true
+type WhichIsShorterSubset<T, U> = T extends []
+  ? "FIRST"
   : U extends []
-  ? false
+  ? "SECOND"
   : T extends [infer THead, ...infer TRest]
   ? U extends [infer UHead, ...infer URest]
     ? TypesMatch<THead, UHead> extends true
-      ? TupleOneProperSubset<TRest, URest>
+      ? WhichIsShorterSubset<TRest, URest>
       : never
     : never
   : never;
@@ -19,8 +21,69 @@ type TupleOneProperSubset<T, U> = T extends []
 type LongerMatchingArgumentList<
   T,
   U,
-  T_IsShorter = TupleOneProperSubset<T, U>
-> = T_IsShorter extends true ? U : T_IsShorter extends false ? T : never;
+  T_IsShorter = WhichIsShorterSubset<T, U>
+> = T_IsShorter extends "FIRST" ? U : T_IsShorter extends "SECOND" ? T : never;
+
+// prevent unused warning
+// @ts-ignore
+type Tests = [
+  Expect<TypesMatch<LongerMatchingArgumentList<[], []>, []>>,
+  Expect<TypesMatch<LongerMatchingArgumentList<[], [number]>, [number]>>,
+  Expect<TypesMatch<LongerMatchingArgumentList<[number], []>, [number]>>,
+  Expect<
+    TypesMatch<
+      LongerMatchingArgumentList<[], [number, string]>,
+      [number, string]
+    >
+  >,
+  Expect<
+    TypesMatch<
+      LongerMatchingArgumentList<[number, string], []>,
+      [number, string]
+    >
+  >,
+  Expect<TypesMatch<LongerMatchingArgumentList<[number], [number]>, [number]>>,
+  Expect<
+    TypesMatch<
+      LongerMatchingArgumentList<[string | number], [string | number]>,
+      [string | number]
+    >
+  >,
+  Expect<
+    TypesMatch<
+      LongerMatchingArgumentList<[string | number], [string | number, object]>,
+      [string | number, object]
+    >
+  >,
+  Expect<
+    TypesMatch<
+      LongerMatchingArgumentList<[string | number, object], [string | number]>,
+      [string | number, object]
+    >
+  >,
+  Expect<
+    TypesMatch<
+      LongerMatchingArgumentList<
+        [string | number, object],
+        [string | number, object, string]
+      >,
+      [string | number, object, string]
+    >
+  >,
+  Expect<
+    TypesMatch<
+      LongerMatchingArgumentList<
+        [string | number, object, string],
+        [string | number, object]
+      >,
+      [string | number, object, string]
+    >
+  >,
+  ExpectNever<LongerMatchingArgumentList<[string], [number]>>,
+  ExpectNever<LongerMatchingArgumentList<[number | string], [string]>>,
+  ExpectNever<LongerMatchingArgumentList<["foo"], [string]>>,
+  ExpectNever<LongerMatchingArgumentList<[string], ["foo"]>>
+];
 
 type LoadingPacket<
   LoadArgs extends unknown[],
