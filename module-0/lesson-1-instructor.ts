@@ -108,4 +108,4 @@ type YesOrNo = "YES" | "NO";
 let yesOrNo: YesOrNo = "NO";
 yesOrNo = "YES";
 
-export default null;
+export {};
