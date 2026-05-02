@@ -19,12 +19,21 @@ type EmailOrSmsPayload = PayloadFor<"email" | "sms">;
 
 // Shut it off
 
-type PayloadForNoDistributing<T extends Channel> = [T] extends "email"
+type PayloadForNoDistributing<T extends Channel> = [T] extends ["email"]
   ? { subject: string; body: string }
-  : [T] extends "sms"
+  : [T] extends ["sms"]
   ? { text: string }
-  : [T] extends "push"
+  : [T] extends ["push"]
   ? { title: string; message: string }
   : never;
 
 type EmailPayload2 = PayloadForNoDistributing<"email">;
+//   ^?
+
+type SmsPayload2 = PayloadForNoDistributing<"sms">;
+//   ^?
+
+type EmailOrSmsPayload2 = PayloadForNoDistributing<"email" | "sms">;
+//   ^?
+
+export {};
