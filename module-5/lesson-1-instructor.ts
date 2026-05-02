@@ -11,7 +11,9 @@ type B = IsArray<string>;
 
 type ArrayOfWhat1<T> = T extends Array<infer U> ? U : never;
 
-type ArrayOfWhat2<T extends Array<unknown>> = T extends Array<infer U> ? U : never;
+type ArrayOfWhat2<T extends Array<unknown>> = T extends Array<infer U>
+  ? U
+  : never;
 
 type C = ArrayOfWhat1<string[]>;
 type D = ArrayOfWhat1<string>;

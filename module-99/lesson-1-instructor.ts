@@ -1,4 +1,8 @@
-type TypesMatch<T, U> = [T] extends [U] ? ([U] extends [T] ? true : false) : false;
+type TypesMatch<T, U> = [T] extends [U]
+  ? [U] extends [T]
+    ? true
+    : false
+  : false;
 
 type TupleOneProperSubset<T, U> = T extends []
   ? true
@@ -12,23 +16,34 @@ type TupleOneProperSubset<T, U> = T extends []
     : never
   : never;
 
-type LongerMatchingArgumentList<T, U, T_IsShorter = TupleOneProperSubset<T, U>> = T_IsShorter extends true
-  ? U
-  : T_IsShorter extends false
-  ? T
-  : never;
+type LongerMatchingArgumentList<
+  T,
+  U,
+  T_IsShorter = TupleOneProperSubset<T, U>
+> = T_IsShorter extends true ? U : T_IsShorter extends false ? T : never;
 
-type LoadingPacket<LoadArgs extends unknown[], PrefetchArgs extends unknown[]> = {
+type LoadingPacket<
+  LoadArgs extends unknown[],
+  PrefetchArgs extends unknown[]
+> = {
   load: (...args: LoadArgs) => Promise<unknown>;
   getPrefetchArgs: (cookies: Record<string, unknown>) => [...PrefetchArgs];
   getPrefetchUrl: (...args: PrefetchArgs) => string;
 };
 
-type LoaderPacket<PrefetchArgs extends unknown[], LoadArgs extends unknown[]> = {
-  load: (...args: LongerMatchingArgumentList<LoadArgs, PrefetchArgs>) => Promise<unknown>;
+type LoaderPacket<
+  PrefetchArgs extends unknown[],
+  LoadArgs extends unknown[]
+> = {
+  load: (
+    ...args: LongerMatchingArgumentList<LoadArgs, PrefetchArgs>
+  ) => Promise<unknown>;
 };
 
-function createPrefetchLoader<LoadArgs extends unknown[], PrefetchArgs extends unknown[]>(
+function createPrefetchLoader<
+  LoadArgs extends unknown[],
+  PrefetchArgs extends unknown[]
+>(
   packet: LoadingPacket<LoadArgs, PrefetchArgs>
 ): LoaderPacket<PrefetchArgs, LoadArgs> {
   return {

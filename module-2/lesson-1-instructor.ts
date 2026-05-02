@@ -12,7 +12,10 @@ function filterUntyped(array: any[], test: (value: any) => boolean): any[] {
 }
 
 // filter numbers
-function filterNumbers(array: number[], test: (value: number) => boolean): number[] {
+function filterNumbers(
+  array: number[],
+  test: (value: number) => boolean
+): number[] {
   const result: number[] = [];
 
   for (const val of array) {
@@ -25,7 +28,10 @@ function filterNumbers(array: number[], test: (value: number) => boolean): numbe
 }
 
 // ... and now strings
-function filterString(array: string[], test: (value: string) => boolean): string[] {
+function filterString(
+  array: string[],
+  test: (value: string) => boolean
+): string[] {
   const result: string[] = [];
 
   for (const val of array) {

@@ -4,7 +4,9 @@ type LoadingPacket<Args extends unknown[]> = {
   getPrefetchUrl: (...args: Args) => string;
 };
 
-function createPrefetchLoader<Args extends unknown[]>(packet: LoadingPacket<Args>) {
+function createPrefetchLoader<Args extends unknown[]>(
+  packet: LoadingPacket<Args>
+) {
   return null as any;
 }
 
