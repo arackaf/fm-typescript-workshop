@@ -16,7 +16,7 @@ type Dog = {
 // let animal: Cat | Dog;
 // animal.
 
-export function dealWithCatOrDog(animal: Cat | Dog) {
+function dealWithCatOrDog(animal: Cat | Dog) {
   if ("whiskers" in animal) {
     console.log("Cat", animal.name, animal.whiskers);
   } else {
@@ -24,7 +24,7 @@ export function dealWithCatOrDog(animal: Cat | Dog) {
   }
 }
 
-export function dealWithCatOrDog2(animal: Cat | Dog) {
+function dealWithCatOrDog2(animal: Cat | Dog) {
   if (animal.TYPE === "CAT") {
     console.log("Cat", animal.name, animal.whiskers);
   } else {
@@ -69,3 +69,5 @@ if (aOrB instanceof A) {
 } else {
   console.log(aOrB.b);
 }
+
+export {};
