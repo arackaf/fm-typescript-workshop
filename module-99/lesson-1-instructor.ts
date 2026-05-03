@@ -1,88 +1,54 @@
-import { Expect, ExpectNever } from "../util/test-utils";
+import {
+  Expect,
+  ExpectFalse,
+  ExpectNever,
+  TypesMatch,
+} from "../util/test-utils";
 
-type TypesMatch<T, U> = [T] extends [U]
-  ? [U] extends [T]
-    ? true
-    : false
-  : false;
-
-type WhichIsShorterSubset<T, U> = T extends []
-  ? "FIRST"
+type TuplesAreSubsetOfEachOther<T, U> = T extends []
+  ? true
   : U extends []
-  ? "SECOND"
+  ? true
   : T extends [infer THead, ...infer TRest]
   ? U extends [infer UHead, ...infer URest]
     ? TypesMatch<THead, UHead> extends true
-      ? WhichIsShorterSubset<TRest, URest>
-      : never
-    : never
-  : never;
-
-type LongerMatchingArgumentList<
-  T,
-  U,
-  T_IsShorter = WhichIsShorterSubset<T, U>
-> = T_IsShorter extends "FIRST" ? U : T_IsShorter extends "SECOND" ? T : never;
+      ? TuplesAreSubsetOfEachOther<TRest, URest>
+      : false
+    : false
+  : false;
 
 // prevent unused warning
 // @ts-ignore
 type Tests = [
-  Expect<TypesMatch<LongerMatchingArgumentList<[], []>, []>>,
-  Expect<TypesMatch<LongerMatchingArgumentList<[], [number]>, [number]>>,
-  Expect<TypesMatch<LongerMatchingArgumentList<[number], []>, [number]>>,
+  Expect<TuplesAreSubsetOfEachOther<[], []>>,
+  Expect<TuplesAreSubsetOfEachOther<[], [number]>>,
+  Expect<TuplesAreSubsetOfEachOther<[number], []>>,
+  Expect<TuplesAreSubsetOfEachOther<[], [number, string]>>,
+  Expect<TuplesAreSubsetOfEachOther<[number, string], []>>,
+  Expect<TuplesAreSubsetOfEachOther<[number], [number]>>,
+  Expect<TuplesAreSubsetOfEachOther<[string | number], [string | number]>>,
   Expect<
-    TypesMatch<
-      LongerMatchingArgumentList<[], [number, string]>,
-      [number, string]
-    >
+    TuplesAreSubsetOfEachOther<[string | number], [string | number, object]>
   >,
   Expect<
-    TypesMatch<
-      LongerMatchingArgumentList<[number, string], []>,
-      [number, string]
-    >
-  >,
-  Expect<TypesMatch<LongerMatchingArgumentList<[number], [number]>, [number]>>,
-  Expect<
-    TypesMatch<
-      LongerMatchingArgumentList<[string | number], [string | number]>,
-      [string | number]
-    >
+    TuplesAreSubsetOfEachOther<[string | number, object], [string | number]>
   >,
   Expect<
-    TypesMatch<
-      LongerMatchingArgumentList<[string | number], [string | number, object]>,
-      [string | number, object]
-    >
-  >,
-  Expect<
-    TypesMatch<
-      LongerMatchingArgumentList<[string | number, object], [string | number]>,
-      [string | number, object]
-    >
-  >,
-  Expect<
-    TypesMatch<
-      LongerMatchingArgumentList<
-        [string | number, object],
-        [string | number, object, string]
-      >,
+    TuplesAreSubsetOfEachOther<
+      [string | number, object],
       [string | number, object, string]
     >
   >,
   Expect<
-    TypesMatch<
-      LongerMatchingArgumentList<
-        [string | number, object, string],
-        [string | number, object]
-      >,
-      [string | number, object, string]
+    TuplesAreSubsetOfEachOther<
+      [string | number, object, string],
+      [string | number, object]
     >
   >,
-  ExpectNever<LongerMatchingArgumentList<[string], [number]>>,
-  ExpectNever<LongerMatchingArgumentList<[number | string], [string]>>,
-  ExpectNever<LongerMatchingArgumentList<["foo"], [string]>>,
-  ExpectNever<LongerMatchingArgumentList<[string], ["foo"]>>
+  ExpectFalse<TuplesAreSubsetOfEachOther<[string], [number]>>,
+  ExpectFalse<TuplesAreSubsetOfEachOther<[number | string], [string]>>,
+  ExpectFalse<TuplesAreSubsetOfEachOther<["foo"], [string]>>,
+  ExpectFalse<TuplesAreSubsetOfEachOther<[string], ["foo"]>>
 ];
 
 type LoadingPacket<
