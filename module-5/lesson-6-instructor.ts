@@ -1,13 +1,13 @@
 import { Expect, ExpectNever, TypesMatch } from "../util/test-utils";
 
-type WhichIsShorterSubset<T, U> = T extends []
-  ? "FIRST"
-  : U extends []
+type WhichIsLongerSubset<T, U> = T extends []
   ? "SECOND"
+  : U extends []
+  ? "FIRST"
   : T extends [infer THead, ...infer TRest]
   ? U extends [infer UHead, ...infer URest]
     ? TypesMatch<THead, UHead> extends true
-      ? WhichIsShorterSubset<TRest, URest>
+      ? WhichIsLongerSubset<TRest, URest>
       : never
     : never
   : never;
@@ -15,8 +15,8 @@ type WhichIsShorterSubset<T, U> = T extends []
 type LongerMatchingArgumentList<
   T,
   U,
-  T_IsShorter = WhichIsShorterSubset<T, U>
-> = T_IsShorter extends "FIRST" ? U : T_IsShorter extends "SECOND" ? T : never;
+  T_IsShorter = WhichIsLongerSubset<T, U>
+> = T_IsShorter extends "FIRST" ? T : T_IsShorter extends "SECOND" ? U : never;
 
 // prevent unused warning
 // @ts-ignore

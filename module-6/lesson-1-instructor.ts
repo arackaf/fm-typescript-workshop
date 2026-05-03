@@ -1,23 +1,48 @@
-// Conditional types
+type YesOrNo = "YES" | "NO";
 
-type Useless = Array<number> extends object ? true : false;
+type ValidAnswerJunk = `My answer is ${string}`;
+const x: ValidAnswerJunk = "My answer is blahhhhhhhh";
+// @ts-expect-error
+const y: ValidAnswerJunk = "My answer isX blahhhhhhhh";
 
-type IsArray<T> = T extends Array<unknown> ? true : false;
+type ValidAnswer = `My answer is ${YesOrNo}`;
 
-type A = IsArray<string[]>;
-type B = IsArray<string>;
+const answerA: ValidAnswer = "My answer is YES";
 
-// Inferring types
+// @ts-expect-error
+const answerB: ValidAnswer = "My answer is blahhhhhhh";
 
-type ArrayOfWhat1<T> = T extends Array<infer U> ? U : never;
+const paths = {
+  users: "/users",
+  userContacts: "/users/contacts",
+  user: "/users/:id",
+  settings: "/admin/settings",
+  billing: "/admin/billing",
+  account: "/admin/account",
+} as const;
 
-type ArrayOfWhat2<T extends Array<unknown>> = T extends Array<infer U>
+type Paths = typeof paths;
+type AllPaths = Paths[keyof Paths];
+
+type PluckPathsFor_A<T, Path extends string> = T extends `/${Path}/${string}`
+  ? T
+  : never;
+
+type AdminPaths_A = PluckPathsFor_A<AllPaths, "admin">;
+
+type PluckPathsFor_B<T, Path extends string> = T extends `/${Path}/${infer U}`
   ? U
   : never;
 
-type C = ArrayOfWhat1<string[]>;
-type D = ArrayOfWhat1<string>;
+type AdminPaths_B = PluckPathsFor_B<AllPaths, "admin">;
 
-type CC = ArrayOfWhat2<string[]>;
+function doSomething(path: AdminPaths_B) {}
+
+doSomething("billing");
+doSomething("settings");
+doSomething("settings");
+
+// @ts-expect-error
+doSomething("settings_nope");
 
 export {};
