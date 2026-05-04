@@ -45,4 +45,4 @@ let getShape: () => Shape = () => new Shape();
 //getCircle = getShape;
 getShape = getCircle;
 
-export default null;
+export {};
