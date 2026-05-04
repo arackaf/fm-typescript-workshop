@@ -1,6 +1,7 @@
 type Cat = {
   name: string;
   whiskers: number;
+  feral: boolean;
 
   // casing does not matter - I just wanted it to stand out - could name it anything
   TYPE: "CAT"; // add later
