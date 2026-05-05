@@ -1,0 +1,11 @@
+export type ArtistAddedToChartPayload = {};
+export type ArtistFollowerMilestonePayload = {};
+export type ArtistNewTopSourceOfStreamPayload = {};
+export type ReleaseAddedToChartPayload = {};
+export type ReleaseIngestedPayload = {};
+export type ReleaseRecentlyReleasedPayload = {};
+export type TrackAddedToChartPayload = {};
+export type TrackAddedToPlaylistPayload = {};
+export type TrackNewTopSongPayload = {};
+export type UserAddedToLabelTeamPayload = {};
+export type UserInvitedToArtistTeamPayload = {};
