@@ -24,10 +24,21 @@ type UpdateArtistResponse =
 export async function updateArtist(
   payload: UpdateArtistPayload
 ): Promise<UpdateArtistResponse> {
-  return {
-    success: true,
-    changes: {
-      name: "New Name",
-    },
-  };
+  const success = Math.random() > 0.5 ? true : false;
+
+  return success
+    ? {
+        success: true,
+        changes: {
+          name: "New Name",
+        },
+      }
+    : {
+        success: false,
+        error: "Failed to update artist",
+      };
+}
+
+export function log(result: any) {
+  console.log(result);
 }
