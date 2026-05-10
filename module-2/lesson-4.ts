@@ -1,3 +1,5 @@
+import { Expect, TypesMatch } from "../util/test-utils";
+
 type LoadingPacket = {
   load: (...args: any) => Promise<unknown>;
   getPrefetchArgs: (cookies: Record<string, unknown>) => any;
@@ -8,7 +10,7 @@ function createPrefetchLoader(packet: LoadingPacket) {
   return null as any;
 }
 
-createPrefetchLoader({
+const loader = createPrefetchLoader({
   load(page: number, search: string) {
     return fetch(`/some/endpoint?page=${page}&search=${search}`);
   },
@@ -22,5 +24,17 @@ createPrefetchLoader({
     return `/some/endpoint?page=${page}&search=${search}`;
   },
 });
+
+type Tests = [
+  Expect<TypesMatch<Parameters<typeof loader.load>, [number, string]>>
+];
+
+loader.load(1, "Hello");
+
+// @ts-expect-error
+loader.load(1);
+
+// @ts-expect-error
+loader.load(1, "Hello", null as any);
 
 export {};
