@@ -86,7 +86,7 @@ type IdFields = {
     : never]: Account[K];
 };
 
-// ok let's include Id__entification__
+// ok let's include Id*entification*
 type IdFields2 = {
   [K in keyof Account as K extends `${string}${"id" | "Id"}${string}`
     ? K
@@ -109,7 +109,7 @@ type IdTypes2 = {
     : never]: Account[K];
 };
 
-// ok I lied it's really this simple but I wanted to walk through some gross examples
+// ok I lied it's really this simple but only because `id` (lowercase) has no other matches
 type IdTypes3 = {
   [K in keyof Account as K extends `${infer U}${"Id"}` ? U : never]: Account[K];
 };

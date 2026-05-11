@@ -12,7 +12,9 @@ type Adam = "Adam";
 
 type Tests = [
   Expect<true>,
+  // @ts-expect-error
   Expect<false>,
+  // @ts-expect-error
   Expect<string>,
   Expect<Adam extends string ? true : false>
 ];

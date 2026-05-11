@@ -1,3 +1,5 @@
+// Slides: https://docs.google.com/presentation/d/1yzXQjRFV7gmHR06ZXdvvRdRC2RSnzaB2dp45L6SOkjw/edit?usp=sharing
+
 type Channel = "email" | "sms" | "push";
 
 type PayloadFor<T extends Channel> = T extends "email"

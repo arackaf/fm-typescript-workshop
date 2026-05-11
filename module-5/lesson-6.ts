@@ -1,16 +1,6 @@
 import { Expect, ExpectNever, TypesMatch } from "../util/test-utils";
 
-type WhichIsLongerSubset<T, U> = T extends []
-  ? "SECOND"
-  : U extends []
-  ? "FIRST"
-  : T extends [infer THead, ...infer TRest]
-  ? U extends [infer UHead, ...infer URest]
-    ? TypesMatch<THead, UHead> extends true
-      ? WhichIsLongerSubset<TRest, URest>
-      : never
-    : never
-  : never;
+type WhichIsLongerSubset<T, U> = never;
 
 type LongerMatchingArgumentList<
   T extends unknown[],
