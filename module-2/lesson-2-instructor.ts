@@ -13,3 +13,5 @@ let fooInst1 = new Foo<number, string>(12, "Hello");
 //let fooInstWrong = new Foo<boolean, string>(12, "Hello");
 
 let fooInst2 = new Foo(12, "Hello");
+
+export {};
