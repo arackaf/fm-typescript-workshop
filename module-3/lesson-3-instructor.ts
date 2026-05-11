@@ -36,6 +36,7 @@ function dealWithCatOrDog2(animal: Cat | Dog) {
 const randomObject = {
   name: "Muffin",
   whiskers: 12,
+  feral: false,
 
   TYPE: "CAT" as const, //add the as const after showing the error
 };
