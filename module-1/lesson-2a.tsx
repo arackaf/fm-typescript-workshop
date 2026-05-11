@@ -2,15 +2,8 @@ import React, { FC } from "react";
 
 import { log, updateArtist } from "./utils/lesson-2-utils";
 
-// 1
-type UpdateArtistPayload = Parameters<typeof updateArtist>[0];
-
-// 2
-type UpdateArtistAsyncResponse = ReturnType<typeof updateArtist>;
-//3
-type UpdateArtistResponse = Awaited<ReturnType<typeof updateArtist>>;
-
-async function updateArtistAndLog(payload: UpdateArtistPayload) {
+//                                        TODO: 1
+async function updateArtistAndLog(payload: any) {
   const response = await updateArtist(payload);
   log(response);
 
@@ -42,9 +35,8 @@ const ArtistForm: React.FC = () => {
   );
 };
 
-const ArtistUpdateResultDisplay: FC<{ payload: UpdateArtistResponse }> = ({
-  payload,
-}) => {
+//                                             TODO: 2
+const ArtistUpdateResultDisplay: FC<{ payload: any }> = ({ payload }) => {
   if (payload.success) {
     return <p>Success: {JSON.stringify(payload.changes)}</p>;
   }
