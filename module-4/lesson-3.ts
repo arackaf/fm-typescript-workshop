@@ -21,10 +21,7 @@ const product2: Product = {
   id: "1",
   name: "Product 1",
   price: 100,
-  metadata_XXX: {
-    color: "red",
-    size: "XL",
-  },
+  // TODO: 1
 };
 
 function saveProduct(product: Product) {}
@@ -32,10 +29,7 @@ saveProduct({
   id: "1",
   name: "Product 1",
   price: 100,
-  metadataXXX: {
-    color: "red",
-    size: "XL",
-  },
+  // TODO: 2
 });
 
 function saveProducts(product: Product[]) {}
@@ -44,10 +38,7 @@ saveProducts([
     id: "1",
     name: "Product 1",
     price: 100,
-    metadataXXX: {
-      color: "red",
-      size: "XL",
-    },
+    // TODO: 3
   },
 ]);
 
@@ -74,7 +65,7 @@ function doSave() {
         name: product.name,
         price: product.price,
         metadataXXX: product.metadata,
-      } satisfies Product;
+      }; // TODO: 4
     })
   );
 }
