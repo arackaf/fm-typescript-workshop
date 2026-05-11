@@ -7,8 +7,8 @@ type UpdateArtistPayload = Parameters<typeof updateArtist>[0];
 
 // 2
 type UpdateArtistAsyncResponse = ReturnType<typeof updateArtist>;
-//3
-type UpdateArtistResponse = Awaited<ReturnType<typeof updateArtist>>;
+// 3
+type UpdateArtistResponse = Awaited<UpdateArtistAsyncResponse>;
 
 async function updateArtistAndLog(payload: UpdateArtistPayload) {
   const response = await updateArtist(payload);

@@ -18,20 +18,18 @@ type UpdateArtistResponse =
       error: string;
     };
 
-export async function updateArtist(
-  payload: UpdateArtistPayload
-): Promise<UpdateArtistResponse> {
+export async function updateArtist(payload: UpdateArtistPayload) {
   const success = !payload.artistId.startsWith("7") ? true : false;
 
   if (!success) {
     return {
-      success: false,
+      success: false as const,
       error: "Failed to update artist",
     };
   }
 
   return {
-    success: true,
+    success: true as const,
     changes: {
       name: "New Name",
     },

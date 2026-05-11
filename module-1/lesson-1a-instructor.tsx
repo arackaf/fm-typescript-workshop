@@ -7,6 +7,7 @@ type Artist = {
   avatar: string;
 };
 
+// No return type - as intended
 export const useArtist = (id: string) => {
   return useQuery({
     queryKey: ["artist", id],
@@ -25,3 +26,5 @@ const ArtistComponent: FC<{ artistId: string }> = (props) => {
 
   return null;
 };
+
+export { ArtistComponent };
