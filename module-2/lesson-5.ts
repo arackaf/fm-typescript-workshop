@@ -1,5 +1,5 @@
 import { createContext, useContext } from "react";
-import { StoreApi, UseBoundStore } from "zustand";
+import { create, StoreApi, UseBoundStore } from "zustand";
 
 type SideNavStorePayload = {
   isOpen: boolean;
@@ -7,6 +7,14 @@ type SideNavStorePayload = {
 };
 
 export type SideNavStore = UseBoundStore<StoreApi<SideNavStorePayload>>;
+
+const useSideNavStoreDemo = create<SideNavStorePayload>()((set) => ({
+  isOpen: false,
+  toggleIsOpen: () => set((state) => ({ isOpen: !state.isOpen })),
+}));
+
+useSideNavStoreDemo();
+type Arg = Parameters<typeof useSideNavStoreDemo>[0];
 
 export const SideNavContext = createContext<SideNavStore>(null as any);
 
