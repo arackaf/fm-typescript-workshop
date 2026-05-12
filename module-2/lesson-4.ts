@@ -1,8 +1,11 @@
 import { Expect, TypesMatch } from "../util/test-utils";
 
 type LoadingPacket = {
+  // args here -->
   load: (...args: any) => Promise<unknown>;
+  // should match this args                           -->
   getPrefetchArgs: (cookies: Record<string, unknown>) => any;
+  // and also these args -->
   getPrefetchUrl: (...args: any) => string;
 };
 
