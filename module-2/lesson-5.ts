@@ -18,6 +18,8 @@ export const useSideNavStore = (selector: any) => {
 const useFoo = () => {
   const { isOpen } = useSideNavStore((state) => ({ isOpen: state.isOpen }));
   //      ^?
+
+  console.log(isOpen);
 };
 
 const useBar = () => {
@@ -25,4 +27,8 @@ const useBar = () => {
     //      ^?
     toggleIsOpen: state.toggleIsOpen,
   }));
+
+  console.log(toggleIsOpen);
 };
+
+export { useFoo, useBar };

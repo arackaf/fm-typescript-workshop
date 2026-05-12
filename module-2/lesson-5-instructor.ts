@@ -19,10 +19,16 @@ export const useSideNavStore = <T>(
 
 const useFoo = () => {
   const { isOpen } = useSideNavStore((state) => ({ isOpen: state.isOpen }));
+
+  console.log(isOpen);
 };
 
 const useBar = () => {
   const { toggleIsOpen } = useSideNavStore((state) => ({
     toggleIsOpen: state.toggleIsOpen,
   }));
+
+  console.log(toggleIsOpen);
 };
+
+export { useFoo, useBar };
