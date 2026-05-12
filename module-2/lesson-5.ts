@@ -13,7 +13,7 @@ const useSideNavStoreDemo = create<SideNavStorePayload>()((set) => ({
   toggleIsOpen: () => set((state) => ({ isOpen: !state.isOpen })),
 }));
 
-useSideNavStoreDemo();
+const {} = useSideNavStoreDemo();
 type Arg = Parameters<typeof useSideNavStoreDemo>[0];
 
 export const SideNavContext = createContext<SideNavStore>(null as any);
