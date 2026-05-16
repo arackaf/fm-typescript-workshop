@@ -8,9 +8,13 @@ type SideNavStorePayload = {
 
 export type SideNavStore = UseBoundStore<StoreApi<SideNavStorePayload>>;
 
+// TODO: This doesn't work
+//type SelectorPayload = Parameters<SideNavStore>[0];
+
 export const SideNavContext = createContext<SideNavStore>(null as any);
 
 export const useSideNavStore = <T>(
+  // TODO: add this
   selector: (state: SideNavStorePayload) => T
 ) => {
   const sideNavStore = useContext(SideNavContext);

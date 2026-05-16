@@ -18,6 +18,7 @@ type Arg = Parameters<typeof useSideNavStoreDemo>[0];
 
 export const SideNavContext = createContext<SideNavStore>(null as any);
 
+// -------------------------------------> TODO: fix this
 export const useSideNavStore = (selector: any) => {
   const sideNavStore = useContext(SideNavContext);
   return sideNavStore(selector);
