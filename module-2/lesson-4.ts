@@ -9,7 +9,11 @@ type LoadingPacket = {
   getPrefetchUrl: (...args: any) => string;
 };
 
-function createPrefetchLoader(packet: LoadingPacket) {
+type Loader = {
+  load: (...args: any) => Promise<unknown>;
+};
+
+function createPrefetchLoader(packet: LoadingPacket): Loader {
   return null as any;
 }
 

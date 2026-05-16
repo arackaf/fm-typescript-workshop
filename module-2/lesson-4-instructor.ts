@@ -6,9 +6,13 @@ type LoadingPacket<Args extends unknown[]> = {
   getPrefetchUrl: (...args: Args) => string;
 };
 
+type Loader<Args extends unknown[]> = {
+  load: (...args: Args) => Promise<unknown>;
+};
+
 function createPrefetchLoader<Args extends unknown[]>(
   packet: LoadingPacket<Args>
-): LoadingPacket<Args> {
+): Loader<Args> {
   return null as any;
 }
 
