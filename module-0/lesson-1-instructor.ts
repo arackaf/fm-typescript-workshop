@@ -34,24 +34,18 @@ b = nev;
 // nev = 12; error - nothing can be assigned to never
 
 // typing functions
-function getNumber(): number {
-  return 12;
+function getNumber(num: number): number {
+  return num + 12;
 }
 
-const getNumber2 = (): number => {
-  return 12;
+type NumToNumFn = (number: number) => number;
+
+const getNumber2: NumToNumFn = (num) => {
+  return num + 2;
 };
 
 // void is for functions that return nothing. You don't need it here but you would for function types ... stay tuned
 function foo(): void {}
-
-function plus1(val: number): number {
-  return val + 1;
-}
-
-const plus2 = (val: number): number => {
-  return val + 1;
-};
 
 function logAll(...values: string[]) {
   console.log(...values);
@@ -68,17 +62,6 @@ logAll2(1, "2", 3, "4", 5, "6");
 // declaring types
 
 type BoolForSomeReason = boolean;
-
-type TwoStringsReturnNumber = (s1: string, s2: string) => number;
-type LogTwoStrings = (s1: string, s2: string) => void;
-
-const fn: TwoStringsReturnNumber = (s1, s2) => {
-  return s1.length + s2.length;
-};
-
-const fn2: LogTwoStrings = (s1, s2) => {
-  console.log(s1, s2);
-};
 
 // types can be combined
 
@@ -103,11 +86,14 @@ type YesOrNo = "YES" | "NO";
 let yesOrNo: YesOrNo = "NO";
 yesOrNo = "YES";
 
+// narrowed inferred types
+
+let tr = true;
+const tr2 = true;
+
+const obj = {
+  success: true as const,
+  payload: {},
+};
+
 export {};
-
-let x: object;
-let y: [number, string] = [12, "Hello"];
-
-x = y;
-
-type yes = [number, string] extends object ? true : false;
