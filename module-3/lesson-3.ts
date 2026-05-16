@@ -9,7 +9,7 @@ type Dog = {
   obedient: boolean;
 };
 
-let animal: Cat | Dog;
+let animal: Cat | Dog = {} as any;
 // animal
 
 function dealWithCatOrDog(animal: Cat | Dog) {}
