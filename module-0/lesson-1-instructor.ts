@@ -34,10 +34,6 @@ b = nev;
 // nev = 12; error - nothing can be assigned to never
 
 // typing functions
-
-// void is for functions that return nothing. You don't need it here but you would for function types ... stay tuned
-function foo(): void {}
-
 function getNumber(): number {
   return 12;
 }
@@ -45,6 +41,9 @@ function getNumber(): number {
 const getNumber2 = (): number => {
   return 12;
 };
+
+// void is for functions that return nothing. You don't need it here but you would for function types ... stay tuned
+function foo(): void {}
 
 function plus1(val: number): number {
   return val + 1;
