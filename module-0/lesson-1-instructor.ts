@@ -8,10 +8,6 @@ let s2: string;
 // error
 //s2 = 12;
 
-// types
-let b: boolean = true;
-let n: number = 12;
-
 // No type checking at all
 let a: any;
 
@@ -109,3 +105,10 @@ let yesOrNo: YesOrNo = "NO";
 yesOrNo = "YES";
 
 export {};
+
+let x: object;
+let y: [number, string] = [12, "Hello"];
+
+x = y;
+
+type yes = [number, string] extends object ? true : false;
