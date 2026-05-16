@@ -26,8 +26,8 @@ const x: Junk = "Valid values are: 12";
 // Actual Mapped types
 
 type CorrectLifeChoices = {
-  conference: "Commit Your Code";
-  city: "Dallas";
+  content: "Master Dot Dev";
+  city: "Minneapolis";
   language: "TypeScript";
 };
 
@@ -53,11 +53,10 @@ type ThingsThatMatterInLife_Object = {
   [K in keyof CorrectLifeChoices]: CorrectLifeChoices[K];
 };
 
+// type Keys = 'content' | 'city' | 'language';
+// type Values = ThingsThatMatterInLife_Object["content" | 'city' | 'language']
+
 type Keys = keyof ThingsThatMatterInLife_Object;
-
-// type Keys = 'conference' | 'city' | 'language';
-
-//type Values = ThingsThatMatterInLife_Object["conference" | 'city' | 'language']
 
 type Values = ThingsThatMatterInLife_Object[Keys];
 
