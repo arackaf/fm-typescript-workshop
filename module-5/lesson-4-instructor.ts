@@ -16,7 +16,8 @@ type Tests = [
   Expect<false>,
   // @ts-expect-error
   Expect<string>,
-  Expect<Adam extends string ? true : false>
+  Expect<Adam extends string ? true : false>,
+  Expect<TypesMatch<{ name: string }, { name: string }>>
 ];
 
 export {};
