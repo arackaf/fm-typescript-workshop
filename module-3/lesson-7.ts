@@ -9,7 +9,7 @@ type Lion = {
   name: string;
   whiskers: number;
   weight: number;
-  hunt(speed: number, distance: number): void;
+  hunt(vector: { x: number; y: number }, speed: number, distance: number): void;
 };
 
 type Dog = {

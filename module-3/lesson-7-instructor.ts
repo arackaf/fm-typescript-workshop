@@ -9,7 +9,7 @@ type Lion = {
   name: string;
   whiskers: number;
   weight: number;
-  hunt(speed: number, distance: number): void;
+  hunt(vector: { x: number; y: number }, speed: number, distance: number): void;
 };
 
 type Dog = {
@@ -20,10 +20,10 @@ type Dog = {
 type Animal = Cat | Dog | Lion;
 
 function dealWithAnimal(animal: Animal) {
-  if (animalIsCat(animal)) {
-    dealWithCat(animal);
-  } else if (animalIsLion(animal)) {
+  if (animalIsLion(animal)) {
     dealWithLion(animal);
+  } else if (animalIsCat(animal)) {
+    dealWithCat(animal);
   } else {
     dealWithDog(animal);
   }
