@@ -25,46 +25,46 @@ const x: Junk = "Valid values are: 12";
 
 // Actual Mapped types
 
-type CorrectLifeChoices = {
+type GoodChoices = {
   content: "Master Dot Dev";
   city: "Minneapolis";
   language: "TypeScript";
 };
 
-type CorrectLifeChoicesCopy = {
-  [K in keyof CorrectLifeChoices]: CorrectLifeChoices[K];
+type GoodChoicesCopy = {
+  [K in keyof GoodChoices]: GoodChoices[K];
 };
 
-type CorrectLifeChoices_Getters = {
-  [K in keyof CorrectLifeChoices]: () => CorrectLifeChoices[K];
+type GoodChoices_Getters = {
+  [K in keyof GoodChoices]: () => GoodChoices[K];
 };
 
-type CorrectLifeChoices_Getters_BetterNames = {
-  [K in keyof CorrectLifeChoices as `get${K}`]: () => CorrectLifeChoices[K];
+type GoodChoices_Getters_BetterNames = {
+  [K in keyof GoodChoices as `get${K}`]: () => GoodChoices[K];
 };
 
-type CorrectLifeChoices_Getters_BetterNamesStill = {
-  [K in keyof CorrectLifeChoices as `get${Capitalize<K>}`]: () => CorrectLifeChoices[K];
+type GoodChoices_Getters_BetterNamesStill = {
+  [K in keyof GoodChoices as `get${Capitalize<K>}`]: () => GoodChoices[K];
 };
 
 // ---------------------------------------------------------------------------
 
-type ThingsThatMatterInLife_Object = {
-  [K in keyof CorrectLifeChoices]: CorrectLifeChoices[K];
+type GoodThings_Object = {
+  [K in keyof GoodChoices]: GoodChoices[K];
 };
 
 // type Keys = 'content' | 'city' | 'language';
 // type Values = ThingsThatMatterInLife_Object["content" | 'city' | 'language']
 
-type Keys = keyof ThingsThatMatterInLife_Object;
+type Keys = keyof GoodThings_Object;
 
-type Values = ThingsThatMatterInLife_Object[Keys];
+type Values = GoodThings_Object[Keys];
 
 // ------
 
 type ThingsThatMatterInLife = {
-  [K in keyof CorrectLifeChoices]: CorrectLifeChoices[K];
-}[keyof CorrectLifeChoices];
+  [K in keyof GoodChoices]: GoodChoices[K];
+}[keyof GoodChoices];
 
 // ---------------------------------------------------------------------------
 
