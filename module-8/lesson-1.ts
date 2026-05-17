@@ -35,7 +35,10 @@ let drawCircleFunction: DrawCircleFn = (_: Circle) => {};
 
 // -------------------------------------
 
-let getCircle: () => Circle = () => new Circle();
-let getShape: () => Shape = () => new Shape();
+type GetCircle = () => Circle;
+type GetShape = () => Shape;
+
+let getCircle: GetCircle = () => new Circle();
+let getShape: GetShape = () => new Shape();
 
 export {};
