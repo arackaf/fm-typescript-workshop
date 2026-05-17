@@ -14,3 +14,5 @@ arr
   // numbers only!
   .filter((x) => typeof x === "number")
   .map((x) => x + 1);
+
+export {};
