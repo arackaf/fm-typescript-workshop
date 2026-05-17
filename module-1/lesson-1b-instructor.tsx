@@ -1,78 +1,30 @@
-import { useForm } from "@tanstack/react-form";
-import React, { FC } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { FC } from "react";
 
-export type Artist = {
+type Artist = {
   id: string;
   name: string;
   avatar: string;
 };
 
-const defaultArtist: Artist = {
-  id: "",
-  name: "",
-  avatar: "",
-};
+// No return type - as intended
+export const useArtist = (id: string) => {
+  return useQuery({
+    queryKey: ["artist", id],
+    queryFn: async () => {
+      const artistResponse = await fetch("/artist/" + id);
+      const artist = (await artistResponse.json()) as Artist;
 
-export const useArtistForm = (onSubmit: (value: Artist) => void) => {
-  return useForm({
-    defaultValues: defaultArtist,
-
-    onSubmit: async ({ value }) => {
-      onSubmit(value);
+      return artist;
     },
   });
 };
 
-export type ProductForm = ReturnType<typeof useArtistForm>;
+const ArtistComponent: FC<{ artistId: string }> = (props) => {
+  const { artistId } = props;
+  const artistPayload = useArtist(artistId);
 
-const ArtistForm: FC = (props) => {
-  const form = useForm({
-    defaultValues: defaultArtist,
-
-    onSubmit: async ({ value }) => {},
-  });
-
-  return (
-    <div>
-      <form onSubmit={() => {}}>
-        <form.Field name="id">
-          {(field) => (
-            <input
-              name={field.name}
-              type="text"
-              value={field.state.value}
-              onChange={(e) => field.handleChange(e.target.value)}
-            />
-          )}
-        </form.Field>
-        <form.Field name="name">
-          {(field) => (
-            <input
-              name={field.name}
-              type="text"
-              value={field.state.value}
-              onChange={(e) => field.handleChange(e.target.value)}
-            />
-          )}
-        </form.Field>
-        <AvatarField form={form} />
-      </form>
-    </div>
-  );
+  return null;
 };
 
-const AvatarField: FC<{ form: any }> = (props) => {
-  const { form } = props;
-  return (
-    <form.Field name="avatar">
-      {(field) => (
-        <input
-          name={field.name}
-          type="text"
-          value={field.state.value}
-          onChange={(e) => field.handleChange(e.target.value)}
-        />
-      )}
-    </form.Field>
-  );
-};
+export { ArtistComponent };

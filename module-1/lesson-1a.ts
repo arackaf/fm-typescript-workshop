@@ -4,6 +4,4 @@ const defaultProduct = {
   price: 0,
 };
 
-type Product = typeof defaultProduct;
-
 export {};
