@@ -1,44 +1,38 @@
-// type Shape = {
-//   name: string;
-// };
+// Mapped types
 
-// type Circle = Shape & {
-//   radius: number;
-// };
+// Array.map
 
-class Shape {
-  name: string = "";
-}
+// Prelude
 
-class Circle extends Shape {
-  radius: number = 0;
-}
+// Actual Mapped types
 
-let circle: Circle = new Circle();
-let shape: Shape = new Shape();
+// ---------------------------------------------------------------------------
 
-// -------------------------------------
+// ---------------------------------------------------------------------------
 
-function draw(item: Shape) {
-  console.log("I just drew", item.name);
-}
+type Account = {
+  id: number;
+  name: string;
+  accountId: string;
+  gamerId: string;
+  myIdentification: string;
+};
 
-draw(shape);
+// all fields with ID
+type IdFields = never;
 
-// -------------------------------------
+// ok let's include Id*entification*
+type IdFields2 = never;
 
-type DrawShapeFn = (item: Shape) => void;
-type DrawCircleFn = (item: Circle) => void;
+// let's strip just the name of the types of id's
+type IdTypes = never;
 
-let drawShapeFunction: DrawShapeFn = (_: Shape) => {};
-let drawCircleFunction: DrawCircleFn = (_: Circle) => {};
+// clean it up and strip the empty id
+type IdTypes2 = never;
 
-// -------------------------------------
+// ok I lied it's really this simple but only because `id` (lowercase) has no other matches
+type IdTypes3 = never;
 
-type GetCircle = () => Circle;
-type GetShape = () => Shape;
+type KeyProps = keyof IdTypes3;
 
-let getCircle: GetCircle = () => new Circle();
-let getShape: GetShape = () => new Shape();
-
-export {};
+export default null;

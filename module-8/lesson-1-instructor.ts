@@ -1,48 +1,70 @@
-// type Shape = {
-//   name: string;
-// };
+// Mapped types
 
-// type Circle = Shape & {
-//   radius: number;
-// };
+// Array.map
 
-class Shape {
-  name: string = "";
-}
+const a = [1, 2, "3"].map((val) => {
+  // @ts-ignore
+  return val + 1;
+});
 
-class Circle extends Shape {
-  radius: number = 0;
-}
+const b = [1, 2, "3"]
+  .filter((val): val is number => typeof val === "number")
+  .map((val) => {
+    return val + 1;
+  });
 
-let circle: Circle = new Circle();
-let shape: Shape = new Shape();
+// Prelude
 
-// error
-//circle = new Shape();
+type Union = "A" | "B" | 12 | 42 | "C";
+type OnlyStrings<T> = T extends string ? T : never;
 
-shape = new Circle();
+type StringsInUnion = OnlyStrings<Union>;
 
-let shape2: Shape = new Circle();
+type Junk = `Valid values are: ${Union}`;
+type Junk2 = `Valid values are: ${StringsInUnion}`;
+const x: Junk = "Valid values are: 12";
 
-function draw(item: Shape) {
-  console.log("I just drew", item.name);
-}
+// Actual Mapped types
 
-draw(circle);
+type GoodChoices = {
+  content: "Master Dot Dev";
+  city: "Minneapolis";
+  language: "TypeScript";
+};
 
-type DrawShapeFn = (item: Shape) => void;
-type DrawCircleFn = (item: Circle) => void;
+type GoodChoicesCopy = {
+  [K in keyof GoodChoices]: GoodChoices[K];
+};
 
-let drawShapeFunction: DrawShapeFn = (_: Shape) => {};
-let drawCircleFunction: DrawCircleFn = (_: Circle) => {};
+type GoodChoices_Getters = {
+  [K in keyof GoodChoices]: () => GoodChoices[K];
+};
 
-drawCircleFunction = drawShapeFunction;
-//drawShapeFunction = drawCircleFunction;
+type GoodChoices_Getters_BetterNames = {
+  [K in keyof GoodChoices as `get${K}`]: () => GoodChoices[K];
+};
 
-let getCircle: () => Circle = () => new Circle();
-let getShape: () => Shape = () => new Shape();
+type GoodChoices_Getters_BetterNamesStill = {
+  [K in keyof GoodChoices as `get${Capitalize<K>}`]: () => GoodChoices[K];
+};
 
-//getCircle = getShape;
-getShape = getCircle;
+// ---------------------------------------------------------------------------
+
+type GoodThings_Object = {
+  [K in keyof GoodChoices]: GoodChoices[K];
+};
+
+// type Keys = 'content' | 'city' | 'language';
+// type Values = GoodThings_Object["content" | 'city' | 'language']
+
+type Keys = keyof GoodThings_Object;
+
+type Values = GoodThings_Object[Keys];
+
+// ------
+
+type GoodThingsGetters = {
+  [K in keyof GoodChoices]: () => GoodChoices[K];
+}[keyof GoodChoices];
 
 export {};
