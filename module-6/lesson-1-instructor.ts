@@ -24,16 +24,17 @@ const paths = {
 type Paths = typeof paths;
 type AllPaths = Paths[keyof Paths];
 
-type PluckPathsFor<T, Path extends string> = T extends `/${Path}/${string}`
-  ? T
-  : never;
+type PluckPathsFor<
+  AllPaths,
+  Filter extends string
+> = AllPaths extends `/${Filter}/${string}` ? AllPaths : never;
 
 type FullAdminPaths = PluckPathsFor<AllPaths, "admin">;
 
 type PluckPathEndingsFor<
-  T,
-  Path extends string
-> = T extends `/${Path}/${infer U}` ? U : never;
+  AllPaths,
+  Filter extends string
+> = AllPaths extends `/${Filter}/${infer U}` ? U : never;
 
 type AdminRoutes = PluckPathEndingsFor<AllPaths, "admin">;
 
