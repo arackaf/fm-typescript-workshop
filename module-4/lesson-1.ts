@@ -59,7 +59,7 @@ function retrieveNewProductsFromETL(): any[] {
 function doSave() {
   const newProducts = retrieveNewProductsFromETL();
   saveProducts(
-    newProducts.map((product) => {
+    newProducts.map(product => {
       return {
         id: product.id,
         name: product.name,

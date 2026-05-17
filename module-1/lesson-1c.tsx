@@ -25,22 +25,22 @@ const ArtistForm: FC = () => {
     <div>
       <form onSubmit={() => {}}>
         <form.Field name="id">
-          {(field) => (
+          {field => (
             <input
               name={field.name}
               type="text"
               value={field.state.value}
-              onChange={(e) => field.handleChange(e.target.value)}
+              onChange={e => field.handleChange(e.target.value)}
             />
           )}
         </form.Field>
         <form.Field name="name">
-          {(field) => (
+          {field => (
             <input
               name={field.name}
               type="text"
               value={field.state.value}
-              onChange={(e) => field.handleChange(e.target.value)}
+              onChange={e => field.handleChange(e.target.value)}
             />
           )}
         </form.Field>
@@ -51,16 +51,16 @@ const ArtistForm: FC = () => {
 };
 
 // TODO: 2
-const AvatarField: FC<{ form: any }> = (props) => {
+const AvatarField: FC<{ form: any }> = props => {
   const { form } = props;
   return (
     <form.Field name="avatar">
-      {(field) => (
+      {field => (
         <input
           name={field.name}
           type="text"
           value={field.state.value}
-          onChange={(e) => field.handleChange(e.target.value)}
+          onChange={e => field.handleChange(e.target.value)}
         />
       )}
     </form.Field>

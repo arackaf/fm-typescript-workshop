@@ -8,9 +8,9 @@ type SideNavStorePayload = {
 
 export type SideNavStore = UseBoundStore<StoreApi<SideNavStorePayload>>;
 
-const useSideNavStoreDemo = create<SideNavStorePayload>()((set) => ({
+const useSideNavStoreDemo = create<SideNavStorePayload>()(set => ({
   isOpen: false,
-  toggleIsOpen: () => set((state) => ({ isOpen: !state.isOpen })),
+  toggleIsOpen: () => set(state => ({ isOpen: !state.isOpen })),
 }));
 
 export const SideNavContext = createContext<SideNavStore>(null as any);
@@ -22,14 +22,14 @@ export const useSideNavStore = (selector: any) => {
 };
 
 const useFoo = () => {
-  const { isOpen } = useSideNavStore((state) => ({ isOpen: state.isOpen }));
+  const { isOpen } = useSideNavStore(state => ({ isOpen: state.isOpen }));
   //      ^?
 
   console.log(isOpen);
 };
 
 const useBar = () => {
-  const { toggleIsOpen } = useSideNavStore((state) => ({
+  const { toggleIsOpen } = useSideNavStore(state => ({
     //      ^?
     toggleIsOpen: state.toggleIsOpen,
   }));

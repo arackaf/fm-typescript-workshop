@@ -28,7 +28,7 @@ let someArtist: Artist = {
 // type this function - it takes in an artbitrary item that's a CatalogItem, and it returns an array of (in theory)
 // similar items of the same type (though for now we're just hard coding the same item).
 async function getSimilarItems<T extends CatalogItem>(item: T): Promise<T[]> {
-  await new Promise((res) => setTimeout(res, 200));
+  await new Promise(res => setTimeout(res, 200));
   return [item, item, item];
 }
 

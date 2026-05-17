@@ -20,7 +20,7 @@ export const useArtist = (id: string) => {
   });
 };
 
-const ArtistComponent: FC<{ artistId: string }> = (props) => {
+const ArtistComponent: FC<{ artistId: string }> = props => {
   const { artistId } = props;
   const artistPayload = useArtist(artistId);
 

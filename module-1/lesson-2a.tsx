@@ -26,7 +26,7 @@ const ArtistForm: React.FC = () => {
 
   return (
     <>
-      <input value={name} onChange={(e) => setName(e.target.value)} />
+      <input value={name} onChange={e => setName(e.target.value)} />
       <button type="button" onClick={handleSave}>
         Save
       </button>
