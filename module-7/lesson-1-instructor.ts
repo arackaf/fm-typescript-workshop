@@ -1,48 +1,50 @@
-// type Shape = {
-//   name: string;
-// };
+type YesOrNo = "YES" | "NO";
 
-// type Circle = Shape & {
-//   radius: number;
-// };
+type ValidAnswerJunk = `My answer is ${string}`;
+const x: ValidAnswerJunk = "My answer is blahhhhhhhh";
+// @ts-expect-error
+const y: ValidAnswerJunk = "My answer isX blahhhhhhhh";
 
-class Shape {
-  name: string = "";
-}
+type ValidAnswer = `My answer is ${YesOrNo}`;
 
-class Circle extends Shape {
-  radius: number = 0;
-}
+const answerA: ValidAnswer = "My answer is YES";
 
-let circle: Circle = new Circle();
-let shape: Shape = new Shape();
+// @ts-expect-error
+const answerB: ValidAnswer = "My answer is blahhhhhhh";
 
-// error
-//circle = new Shape();
+const paths = {
+  users: "/users",
+  userContacts: "/users/contacts",
+  user: "/users/:id",
+  settings: "/admin/settings",
+  billing: "/admin/billing",
+  account: "/admin/account",
+} as const;
 
-shape = new Circle();
+type Paths = typeof paths;
+type AllPaths = Paths[keyof Paths];
 
-let shape2: Shape = new Circle();
+type PluckPathsFor<
+  AllPaths,
+  Filter extends string
+> = AllPaths extends `/${Filter}/${string}` ? AllPaths : never;
 
-function draw(item: Shape) {
-  console.log("I just drew", item.name);
-}
+type FullAdminPaths = PluckPathsFor<AllPaths, "admin">;
 
-draw(circle);
+type PluckPathEndingsFor<
+  AllPaths,
+  Filter extends string
+> = AllPaths extends `/${Filter}/${infer U}` ? U : never;
 
-type DrawShapeFn = (item: Shape) => void;
-type DrawCircleFn = (item: Circle) => void;
+type AdminRoutes = PluckPathEndingsFor<AllPaths, "admin">;
 
-let drawShapeFunction: DrawShapeFn = (_: Shape) => {};
-let drawCircleFunction: DrawCircleFn = (_: Circle) => {};
+function doSomething(path: AdminRoutes) {}
 
-drawCircleFunction = drawShapeFunction;
-//drawShapeFunction = drawCircleFunction;
+doSomething("billing");
+doSomething("settings");
+doSomething("settings");
 
-let getCircle: () => Circle = () => new Circle();
-let getShape: () => Shape = () => new Shape();
-
-//getCircle = getShape;
-getShape = getCircle;
+// @ts-expect-error
+doSomething("settings_nope");
 
 export {};

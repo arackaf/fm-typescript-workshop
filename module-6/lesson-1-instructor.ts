@@ -1,50 +1,30 @@
-type YesOrNo = "YES" | "NO";
+type User = {
+  id: number;
+  name: string;
+};
 
-type ValidAnswerJunk = `My answer is ${string}`;
-const x: ValidAnswerJunk = "My answer is blahhhhhhhh";
-// @ts-expect-error
-const y: ValidAnswerJunk = "My answer isX blahhhhhhhh";
+const users: User[] = [
+  { id: 1, name: "Marc" },
+  { id: 2, name: "Adam" },
+];
 
-type ValidAnswer = `My answer is ${YesOrNo}`;
+type UserSearchResults<T extends string | number> = T extends string
+  ? User[]
+  : User;
 
-const answerA: ValidAnswer = "My answer is YES";
+function userSearch<T extends string | number>(arg: T): UserSearchResults<T> {
+  if (typeof arg === "string") {
+    return users as UserSearchResults<T>;
+  } else {
+    return users[0] as UserSearchResults<T>;
+  }
+}
 
-// @ts-expect-error
-const answerB: ValidAnswer = "My answer is blahhhhhhh";
+const x = userSearch("");
+const y = userSearch(12);
 
-const paths = {
-  users: "/users",
-  userContacts: "/users/contacts",
-  user: "/users/:id",
-  settings: "/admin/settings",
-  billing: "/admin/billing",
-  account: "/admin/account",
-} as const;
+let arg2: string | number = Math.random() < 0.5 ? "" : 12;
 
-type Paths = typeof paths;
-type AllPaths = Paths[keyof Paths];
-
-type PluckPathsFor<
-  AllPaths,
-  Filter extends string
-> = AllPaths extends `/${Filter}/${string}` ? AllPaths : never;
-
-type FullAdminPaths = PluckPathsFor<AllPaths, "admin">;
-
-type PluckPathEndingsFor<
-  AllPaths,
-  Filter extends string
-> = AllPaths extends `/${Filter}/${infer U}` ? U : never;
-
-type AdminRoutes = PluckPathEndingsFor<AllPaths, "admin">;
-
-function doSomething(path: AdminRoutes) {}
-
-doSomething("billing");
-doSomething("settings");
-doSomething("settings");
-
-// @ts-expect-error
-doSomething("settings_nope");
+const results = userSearch(arg2);
 
 export {};

@@ -1,44 +1,14 @@
-// type Shape = {
-//   name: string;
-// };
+type YesOrNo = "YES" | "NO";
 
-// type Circle = Shape & {
-//   radius: number;
-// };
+// --------------
 
-class Shape {
-  name: string = "";
-}
-
-class Circle extends Shape {
-  radius: number = 0;
-}
-
-let circle: Circle = new Circle();
-let shape: Shape = new Shape();
-
-// -------------------------------------
-
-function draw(item: Shape) {
-  console.log("I just drew", item.name);
-}
-
-draw(shape);
-
-// -------------------------------------
-
-type DrawShapeFn = (item: Shape) => void;
-type DrawCircleFn = (item: Circle) => void;
-
-let drawShapeFunction: DrawShapeFn = (_: Shape) => {};
-let drawCircleFunction: DrawCircleFn = (_: Circle) => {};
-
-// -------------------------------------
-
-type GetCircle = () => Circle;
-type GetShape = () => Shape;
-
-let getCircle: GetCircle = () => new Circle();
-let getShape: GetShape = () => new Shape();
+const paths = {
+  users: "/users",
+  userContacts: "/users/contacts",
+  user: "/users/:id",
+  settings: "/admin/settings",
+  billing: "/admin/billing",
+  account: "/admin/account",
+} as const;
 
 export {};
