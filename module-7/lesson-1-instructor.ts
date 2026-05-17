@@ -21,6 +21,7 @@ type OnlyStrings<T> = T extends string ? T : never;
 type StringsInUnion = OnlyStrings<Union>;
 
 type Junk = `Valid values are: ${Union}`;
+type Junk2 = `Valid values are: ${StringsInUnion}`;
 const x: Junk = "Valid values are: 12";
 
 // Actual Mapped types
@@ -54,7 +55,7 @@ type GoodThings_Object = {
 };
 
 // type Keys = 'content' | 'city' | 'language';
-// type Values = ThingsThatMatterInLife_Object["content" | 'city' | 'language']
+// type Values = GoodThings_Object["content" | 'city' | 'language']
 
 type Keys = keyof GoodThings_Object;
 
@@ -62,8 +63,8 @@ type Values = GoodThings_Object[Keys];
 
 // ------
 
-type ThingsThatMatterInLife = {
-  [K in keyof GoodChoices]: GoodChoices[K];
+type GoodThingsGetters = {
+  [K in keyof GoodChoices]: () => GoodChoices[K];
 }[keyof GoodChoices];
 
 // ---------------------------------------------------------------------------
