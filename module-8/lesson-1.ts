@@ -17,18 +17,15 @@ class Circle extends Shape {
 let circle: Circle = new Circle();
 let shape: Shape = new Shape();
 
-// error
-//circle = new Shape();
-
-shape = new Circle();
-
-let shape2: Shape = new Circle();
+// -------------------------------------
 
 function draw(item: Shape) {
   console.log("I just drew", item.name);
 }
 
-draw(circle);
+draw(shape);
+
+// -------------------------------------
 
 type DrawShapeFn = (item: Shape) => void;
 type DrawCircleFn = (item: Circle) => void;
@@ -36,13 +33,9 @@ type DrawCircleFn = (item: Circle) => void;
 let drawShapeFunction: DrawShapeFn = (_: Shape) => {};
 let drawCircleFunction: DrawCircleFn = (_: Circle) => {};
 
-drawCircleFunction = drawShapeFunction;
-//drawShapeFunction = drawCircleFunction;
+// -------------------------------------
 
 let getCircle: () => Circle = () => new Circle();
 let getShape: () => Shape = () => new Shape();
-
-//getCircle = getShape;
-getShape = getCircle;
 
 export {};
