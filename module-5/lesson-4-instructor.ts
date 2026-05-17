@@ -18,6 +18,7 @@ type Tests = [
   Expect<string>,
   Expect<Adam extends string ? true : false>,
   Expect<TypesMatch<{ name: string }, { name: string }>>,
+  ExpectFalse<TypesMatch<"a", "a" | "b">>,
   ExpectFalse<TypesMatch<"a" | "b", "a">>,
   ExpectFalse<
     TypesMatch<
