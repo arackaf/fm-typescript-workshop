@@ -6,7 +6,7 @@ type Account = {
   myIdentification: string;
 };
 
-// all fields with ID
+// all fields with Id
 type IdFields = {
   [K in keyof Account as K extends `${string}${"id" | "Id"}`
     ? K
@@ -20,7 +20,7 @@ type IdFields2 = {
     : never]: Account[K];
 };
 
-// let's strip just the name of the types of id's
+// let's strip just the name of the types of Id's
 type IdTypes = {
   [K in keyof Account as K extends `${infer U}${"id" | "Id"}`
     ? U
