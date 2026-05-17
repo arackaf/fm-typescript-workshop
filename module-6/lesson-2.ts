@@ -8,4 +8,8 @@ const users: User[] = [
   { id: 2, name: "Adam" },
 ];
 
+type UserSearchResults<T extends string | number> = T extends string
+  ? User[]
+  : User;
+
 export {};
