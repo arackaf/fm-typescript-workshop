@@ -15,8 +15,8 @@ type WhichIsLongerSubset<T, U> = T extends []
 type LongerMatchingArgumentList<
   T extends unknown[],
   U extends unknown[],
-  T_IsShorter = WhichIsLongerSubset<T, U>
-> = T_IsShorter extends "FIRST" ? T : T_IsShorter extends "SECOND" ? U : never;
+  T_IsLonger = WhichIsLongerSubset<T, U>
+> = T_IsLonger extends "FIRST" ? T : T_IsLonger extends "SECOND" ? U : never;
 
 // prevent unused warning
 // @ts-ignore
