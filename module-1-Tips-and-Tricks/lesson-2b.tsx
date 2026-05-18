@@ -12,13 +12,13 @@ export async function updateArtist(payload: UpdateArtistPayload) {
 
   if (!success) {
     return {
-      success: false as const,
+      success: false,
       error: "Failed to update artist",
     };
   }
 
   return {
-    success: true as const,
+    success: true,
     changes: {
       name: "New Name",
     },
