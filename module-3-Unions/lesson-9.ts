@@ -7,7 +7,7 @@ class B {
 }
 
 class C {
-  b: number = 0;
+  c: number = 0;
 }
 
 type AnyOfThese = A | B | C;
