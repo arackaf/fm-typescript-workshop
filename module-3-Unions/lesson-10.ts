@@ -25,15 +25,6 @@ function getAnimal(): AnyAnimal {
 
 const animal: AnyAnimal = getAnimal();
 
-function dealWithAnimal(animal: AnyAnimal) {
-  switch (animal.TYPE) {
-    case "CAT":
-      console.log("Cat", animal.name, animal.whiskers);
-      break;
-    case "DOG":
-      console.log("Dog", animal.name, animal.obedient);
-      break;
-  }
-}
+function dealWithAnimal(animal: AnyAnimal) {}
 
 export {};
