@@ -43,14 +43,13 @@ type GetShape = () => Shape;
 let getCircle: GetCircle = () => new Circle();
 let getShape: GetShape = () => new Shape();
 
-
 // -----------------------------
 
 const handleEvent = (evt: React.SyntheticEvent) => {};
 const handleMouseEvent = (evt: React.MouseEvent) => {};
 
 const ReactExample: FC = () => {
-  return <div onMouseEnter={evt => {}}></div>;
+  return <div></div>;
 };
 
 export {};
