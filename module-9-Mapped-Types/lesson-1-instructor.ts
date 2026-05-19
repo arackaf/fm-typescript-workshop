@@ -54,16 +54,18 @@ type GoodThings_Object = {
   [K in keyof GoodChoices]: GoodChoices[K];
 };
 
-// type Keys = 'content' | 'city' | 'language';
-// type Values = GoodThings_Object["content" | 'city' | 'language']
+type Values_Silly = GoodThings_Object["city" | "content" | "language"];
 
-type Keys = keyof GoodThings_Object;
+type Values = GoodThings_Object[keyof GoodThings_Object];
 
-type Values = GoodThings_Object[Keys];
+// What if we need to change things around?
 
-// ------
+type GoodThingsGetters_A = {
+  [K in keyof GoodChoices]: () => GoodChoices[K];
+};
+type GoodThingsGettersValues_A = GoodChoices_Getters[keyof GoodThingsGetters_A];
 
-type GoodThingsGetters = {
+type GoodThingsGettersValues = {
   [K in keyof GoodChoices]: () => GoodChoices[K];
 }[keyof GoodChoices];
 
