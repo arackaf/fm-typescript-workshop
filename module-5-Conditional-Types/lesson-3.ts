@@ -1,11 +1,31 @@
-type Channel = "email" | "sms" | "push";
+type Expect<T extends true> = T;
+type ExpectNever<T extends never> = T;
+type ExpectFalse<T extends false> = T;
 
-type PayloadFor<T extends Channel> = T extends "email"
-  ? { subject: string; body: string }
-  : T extends "sms"
-  ? { text: string }
-  : T extends "push"
-  ? { title: string; message: string }
-  : never;
+type TypesMatch<T, U> = [T] extends [U]
+  ? [U] extends [T]
+    ? true
+    : false
+  : false;
 
+type Adam = "Adam";
+
+type Tests = [
+  Expect<true>,
+  // @ts-expect-error
+  Expect<false>,
+  // @ts-expect-error
+  Expect<string>,
+  Expect<Adam extends string ? true : false>,
+  Expect<TypesMatch<{ name: string }, { name: string }>>,
+  ExpectFalse<TypesMatch<{ name: number }, { name: string }>>,
+  ExpectFalse<TypesMatch<"a", "a" | "b">>,
+  ExpectFalse<TypesMatch<"a" | "b", "a">>,
+  ExpectFalse<
+    TypesMatch<
+      { type: "a"; value: string } | { type: "b"; value: number },
+      { type: "a"; value: string }
+    >
+  >
+];
 export {};

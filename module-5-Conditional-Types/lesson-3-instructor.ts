@@ -1,41 +1,31 @@
-// Slides: https://docs.google.com/presentation/d/1yzXQjRFV7gmHR06ZXdvvRdRC2RSnzaB2dp45L6SOkjw/edit?usp=sharing
+type Expect<T extends true> = T;
+type ExpectNever<T extends never> = T;
+type ExpectFalse<T extends false> = T;
 
-type Channel = "email" | "sms" | "push";
+type TypesMatch<T, U> = [T] extends [U]
+  ? [U] extends [T]
+    ? true
+    : false
+  : false;
 
-type PayloadFor<T extends Channel> = T extends "email"
-  ? { subject: string; body: string }
-  : T extends "sms"
-  ? { text: string }
-  : T extends "push"
-  ? { title: string; message: string }
-  : never;
+type Adam = "Adam";
 
-type EmailPayload = PayloadFor<"email">;
-//   ^?
-
-type SmsPayload = PayloadFor<"sms">;
-//   ^?
-
-type EmailOrSmsPayload = PayloadFor<"email" | "sms">;
-//   ^?
-
-// Shut it off
-
-type PayloadForNoDistributing<T extends Channel> = [T] extends ["email"]
-  ? { subject: string; body: string }
-  : [T] extends ["sms"]
-  ? { text: string }
-  : [T] extends ["push"]
-  ? { title: string; message: string }
-  : never;
-
-type EmailPayload2 = PayloadForNoDistributing<"email">;
-//   ^?
-
-type SmsPayload2 = PayloadForNoDistributing<"sms">;
-//   ^?
-
-type EmailOrSmsPayload2 = PayloadForNoDistributing<"email" | "sms">;
-//   ^?
+type Tests = [
+  Expect<true>,
+  // @ts-expect-error
+  Expect<false>,
+  // @ts-expect-error
+  Expect<string>,
+  Expect<Adam extends string ? true : false>,
+  Expect<TypesMatch<{ name: string }, { name: string }>>,
+  ExpectFalse<TypesMatch<"a", "a" | "b">>,
+  ExpectFalse<TypesMatch<"a" | "b", "a">>,
+  ExpectFalse<
+    TypesMatch<
+      { type: "a"; value: string } | { type: "b"; value: number },
+      { type: "a"; value: string }
+    >
+  >
+];
 
 export {};

@@ -1,33 +1,52 @@
-const users = [
-  { id: 1, name: "Adam", city: "OKC", hobbies: ["Working out"] },
-  { id: 2, name: "Ken", city: "Wall Township", hobbies: ["Drinking"] },
-  { id: 3, name: "Marc", city: "Minneapolis", hobbies: ["Gymnastics"] },
-  { id: 4, name: "Dustin", city: "Minneapolis", hobbies: ["Golf"] },
-];
+type GetReturnType1<T> = T extends (...args: any) => infer U ? U : never;
 
-type StringOrNumberKeys<T> = {
-  [K in keyof T]: T[K] extends string | number ? K : never;
-}[keyof T];
+type GetReturnType<T extends (...args: any) => any> = T extends (
+  ...args: any
+) => infer U
+  ? U
+  : never;
 
-function groupBy<T, K extends StringOrNumberKeys<T>>(items: T[], key: K) {
-  const result: Record<string | number, T[]> = {};
+type X = (a: number, b: string) => string[];
 
-  for (const item of items) {
-    const value = item[key] as string | number;
+type Str = GetReturnType<X>;
+//type Junk = GetReturnType<string>;
 
-    if (!result[value]) {
-      result[value] = [];
-    }
+type GetParameters1<T> = T extends (...args: infer U) => any ? U : never;
 
-    result[value].push(item);
-  }
-  return result;
-}
+type GetParameters<T extends (...args: any) => any> = T extends (
+  ...args: infer U
+) => any
+  ? U
+  : never;
 
-groupBy(users, "id");
-groupBy(users, "city");
+type StringAndNumber = (s: string, n: number) => string[];
 
-// @ts-expect-error
-groupBy(users, "hobbies");
+type Args = GetParameters<StringAndNumber>;
+//type Args2 = GetParameters<string>;
+
+type GetParameter<
+  T extends (...args: any) => any,
+  N extends number
+> = T extends (...args: infer U) => any ? U[N] : never;
+
+type StringAndNumberParams = (s: string, n: number) => string[];
+
+type StringIHope = GetParameter<StringAndNumberParams, 0>;
+type NumberIHope = GetParameter<StringAndNumberParams, 1>;
+type Hmmm = GetParameter<StringAndNumberParams, 2>;
+
+///
+
+type UsingReal1 = Parameters<StringAndNumberParams>;
+
+type UsingReal2 = ReturnType<StringAndNumberParams>;
+
+///
+
+const actualFunction = (a: number, b: number[], c: string[][]) => {
+  return 12;
+};
+
+type StringArrArr = GetParameter<typeof actualFunction, 2>;
 
 export {};

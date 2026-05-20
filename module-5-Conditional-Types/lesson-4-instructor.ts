@@ -1,31 +1,54 @@
-type Expect<T extends true> = T;
-type ExpectNever<T extends never> = T;
-type ExpectFalse<T extends false> = T;
+import {
+  Expect,
+  ExpectFalse,
+  ExpectNever,
+  TypesMatch,
+} from "../util/test-utils";
 
-type TypesMatch<T, U> = [T] extends [U]
-  ? [U] extends [T]
-    ? true
+type TuplesAreSubsetOfEachOther<T, U> = T extends []
+  ? true
+  : U extends []
+  ? true
+  : T extends [infer THead, ...infer TRest]
+  ? U extends [infer UHead, ...infer URest]
+    ? TypesMatch<THead, UHead> extends true
+      ? TuplesAreSubsetOfEachOther<TRest, URest>
+      : false
     : false
   : false;
 
-type Adam = "Adam";
-
+// prevent unused warning
+// @ts-ignore
 type Tests = [
-  Expect<true>,
-  // @ts-expect-error
-  Expect<false>,
-  // @ts-expect-error
-  Expect<string>,
-  Expect<Adam extends string ? true : false>,
-  Expect<TypesMatch<{ name: string }, { name: string }>>,
-  ExpectFalse<TypesMatch<"a", "a" | "b">>,
-  ExpectFalse<TypesMatch<"a" | "b", "a">>,
-  ExpectFalse<
-    TypesMatch<
-      { type: "a"; value: string } | { type: "b"; value: number },
-      { type: "a"; value: string }
+  Expect<TuplesAreSubsetOfEachOther<[], []>>,
+  Expect<TuplesAreSubsetOfEachOther<[], [number]>>,
+  Expect<TuplesAreSubsetOfEachOther<[number], []>>,
+  Expect<TuplesAreSubsetOfEachOther<[], [number, string]>>,
+  Expect<TuplesAreSubsetOfEachOther<[number, string], []>>,
+  Expect<TuplesAreSubsetOfEachOther<[number], [number]>>,
+  Expect<TuplesAreSubsetOfEachOther<[string | number], [string | number]>>,
+  Expect<
+    TuplesAreSubsetOfEachOther<[string | number], [string | number, object]>
+  >,
+  Expect<
+    TuplesAreSubsetOfEachOther<[string | number, object], [string | number]>
+  >,
+  Expect<
+    TuplesAreSubsetOfEachOther<
+      [string | number, object],
+      [string | number, object, string]
     >
-  >
+  >,
+  Expect<
+    TuplesAreSubsetOfEachOther<
+      [string | number, object, string],
+      [string | number, object]
+    >
+  >,
+  ExpectFalse<TuplesAreSubsetOfEachOther<[string], [number]>>,
+  ExpectFalse<TuplesAreSubsetOfEachOther<[number | string], [string]>>,
+  ExpectFalse<TuplesAreSubsetOfEachOther<["foo"], [string]>>,
+  ExpectFalse<TuplesAreSubsetOfEachOther<[string], ["foo"]>>
 ];
 
 export {};

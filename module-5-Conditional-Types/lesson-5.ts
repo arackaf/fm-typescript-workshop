@@ -1,39 +1,120 @@
-import { Expect, ExpectFalse, TypesMatch } from "../util/test-utils";
+import { Expect, ExpectNever, TypesMatch } from "../util/test-utils";
 
-type TuplesAreSubsetOfEachOther<T, U> = false;
+type WhichIsLongerSubset<T, U> = never;
+
+type LongerMatchingArgumentList<
+  T extends unknown[],
+  U extends unknown[],
+  T_IsLonger = WhichIsLongerSubset<T, U>
+> = T_IsLonger extends "FIRST" ? T : T_IsLonger extends "SECOND" ? U : never;
 
 // prevent unused warning
 // @ts-ignore
 type Tests = [
-  Expect<TuplesAreSubsetOfEachOther<[], []>>,
-  Expect<TuplesAreSubsetOfEachOther<[], [number]>>,
-  Expect<TuplesAreSubsetOfEachOther<[number], []>>,
-  Expect<TuplesAreSubsetOfEachOther<[], [number, string]>>,
-  Expect<TuplesAreSubsetOfEachOther<[number, string], []>>,
-  Expect<TuplesAreSubsetOfEachOther<[number], [number]>>,
-  Expect<TuplesAreSubsetOfEachOther<[string | number], [string | number]>>,
+  Expect<TypesMatch<LongerMatchingArgumentList<[], []>, []>>,
+  Expect<TypesMatch<LongerMatchingArgumentList<[], [number]>, [number]>>,
+  Expect<TypesMatch<LongerMatchingArgumentList<[number], []>, [number]>>,
   Expect<
-    TuplesAreSubsetOfEachOther<[string | number], [string | number, object]>
+    TypesMatch<
+      LongerMatchingArgumentList<[], [number, string]>,
+      [number, string]
+    >
   >,
   Expect<
-    TuplesAreSubsetOfEachOther<[string | number, object], [string | number]>
+    TypesMatch<
+      LongerMatchingArgumentList<[number, string], []>,
+      [number, string]
+    >
+  >,
+  Expect<TypesMatch<LongerMatchingArgumentList<[number], [number]>, [number]>>,
+  Expect<
+    TypesMatch<
+      LongerMatchingArgumentList<[string | number], [string | number]>,
+      [string | number]
+    >
   >,
   Expect<
-    TuplesAreSubsetOfEachOther<
-      [string | number, object],
+    TypesMatch<
+      LongerMatchingArgumentList<[string | number], [string | number, object]>,
+      [string | number, object]
+    >
+  >,
+  Expect<
+    TypesMatch<
+      LongerMatchingArgumentList<[string | number, object], [string | number]>,
+      [string | number, object]
+    >
+  >,
+  Expect<
+    TypesMatch<
+      LongerMatchingArgumentList<
+        [string | number, object],
+        [string | number, object, string]
+      >,
       [string | number, object, string]
     >
   >,
   Expect<
-    TuplesAreSubsetOfEachOther<
-      [string | number, object, string],
-      [string | number, object]
+    TypesMatch<
+      LongerMatchingArgumentList<
+        [string | number, object, string],
+        [string | number, object]
+      >,
+      [string | number, object, string]
     >
   >,
-  ExpectFalse<TuplesAreSubsetOfEachOther<[string], [number]>>,
-  ExpectFalse<TuplesAreSubsetOfEachOther<[number | string], [string]>>,
-  ExpectFalse<TuplesAreSubsetOfEachOther<["foo"], [string]>>,
-  ExpectFalse<TuplesAreSubsetOfEachOther<[string], ["foo"]>>
+  ExpectNever<LongerMatchingArgumentList<[string], [number]>>,
+  ExpectNever<LongerMatchingArgumentList<[number | string], [string]>>,
+  ExpectNever<LongerMatchingArgumentList<["foo"], [string]>>,
+  ExpectNever<LongerMatchingArgumentList<[string], ["foo"]>>
 ];
+
+type LoadingPacket<
+  LoadArgs extends unknown[],
+  PrefetchArgs extends unknown[]
+> = {
+  load: (...args: LoadArgs) => Promise<unknown>;
+  getPrefetchArgs: (cookies: Record<string, unknown>) => [...PrefetchArgs];
+  getPrefetchUrl: (...args: PrefetchArgs) => string;
+};
+
+type LoaderPacket<
+  PrefetchArgs extends unknown[],
+  LoadArgs extends unknown[]
+> = {
+  load: (
+    ...args: LongerMatchingArgumentList<LoadArgs, PrefetchArgs>
+  ) => Promise<unknown>;
+};
+
+function createPrefetchLoader<
+  LoadArgs extends unknown[],
+  PrefetchArgs extends unknown[]
+>(
+  packet: LoadingPacket<LoadArgs, PrefetchArgs>
+): LoaderPacket<PrefetchArgs, LoadArgs> {
+  return {
+    load: (...args) => {
+      return Promise.resolve();
+    },
+  };
+}
+
+const loader = createPrefetchLoader({
+  load(page: number, search: string) {
+    return fetch(`/some/endpoint?page=${page}&search=${search}`);
+  },
+  getPrefetchArgs(cookies: Record<string, unknown>) {
+    const page: number = (cookies.page as number) || 1;
+    const search: string = (cookies.search as string) || "";
+
+    return [page, search];
+  },
+  getPrefetchUrl(page: number, search: string) {
+    return `/some/endpoint?page=${page}&search=${search}`;
+  },
+});
+
+loader.load(12, "");
 
 export {};

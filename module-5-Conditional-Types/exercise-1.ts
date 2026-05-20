@@ -1,27 +1,31 @@
-const users = [
-  { id: 1, name: "Adam", city: "OKC", hobbies: ["Working out"] },
-  { id: 2, name: "Ken", city: "Wall Township", hobbies: ["Drinking"] },
-  { id: 3, name: "Marc", city: "Minneapolis", hobbies: ["Gymnastics"] },
-  { id: 4, name: "Dustin", city: "Minneapolis", hobbies: ["Golf"] },
-];
-function groupBy(items: any[], key: any) {
-  return items.reduce((acc, item) => {
-    const value = item[key];
+type ReturnType<T extends (...args: any) => any> = T extends (
+  ...args: any
+) => infer R
+  ? R
+  : any;
 
-    if (!acc[value]) {
-      acc[value] = [];
-    }
+type GetReturnType<T extends (...args: any[]) => any> = T extends (
+  ...args: unknown[]
+) => infer R
+  ? R
+  : never;
 
-    acc[value].push(item);
+type Parameters<T extends (...args: any) => any> = T extends (
+  ...args: infer P
+) => any
+  ? P
+  : never;
 
-    return acc;
-  }, {});
-}
+type GetParameters<T extends (...args: any[]) => any> = T extends (
+  ...args: infer P
+) => unknown
+  ? P
+  : never;
 
-groupBy(users, "id");
-groupBy(users, "city");
+type Number = GetReturnType<() => number>;
+type Bad = GetReturnType<number>;
 
-// @ts-expect-error
-groupBy(users, "hobbies");
+type StringTuple = GetParameters<(a: string) => number>;
+type Bad2 = GetParameters<number>;
 
 export {};

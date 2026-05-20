@@ -1,52 +1,41 @@
-type GetReturnType1<T> = T extends (...args: any) => infer U ? U : never;
+// Slides: https://docs.google.com/presentation/d/1yzXQjRFV7gmHR06ZXdvvRdRC2RSnzaB2dp45L6SOkjw/edit?usp=sharing
 
-type GetReturnType<T extends (...args: any) => any> = T extends (
-  ...args: any
-) => infer U
-  ? U
+type Channel = "email" | "sms" | "push";
+
+type PayloadFor<T extends Channel> = T extends "email"
+  ? { subject: string; body: string }
+  : T extends "sms"
+  ? { text: string }
+  : T extends "push"
+  ? { title: string; message: string }
   : never;
 
-type X = (a: number, b: string) => string[];
+type EmailPayload = PayloadFor<"email">;
+//   ^?
 
-type Str = GetReturnType<X>;
-//type Junk = GetReturnType<string>;
+type SmsPayload = PayloadFor<"sms">;
+//   ^?
 
-type GetParameters1<T> = T extends (...args: infer U) => any ? U : never;
+type EmailOrSmsPayload = PayloadFor<"email" | "sms">;
+//   ^?
 
-type GetParameters<T extends (...args: any) => any> = T extends (
-  ...args: infer U
-) => any
-  ? U
+// Shut it off
+
+type PayloadForNoDistributing<T extends Channel> = [T] extends ["email"]
+  ? { subject: string; body: string }
+  : [T] extends ["sms"]
+  ? { text: string }
+  : [T] extends ["push"]
+  ? { title: string; message: string }
   : never;
 
-type StringAndNumber = (s: string, n: number) => string[];
+type EmailPayload2 = PayloadForNoDistributing<"email">;
+//   ^?
 
-type Args = GetParameters<StringAndNumber>;
-//type Args2 = GetParameters<string>;
+type SmsPayload2 = PayloadForNoDistributing<"sms">;
+//   ^?
 
-type GetParameter<
-  T extends (...args: any) => any,
-  N extends number
-> = T extends (...args: infer U) => any ? U[N] : never;
-
-type StringAndNumberParams = (s: string, n: number) => string[];
-
-type StringIHope = GetParameter<StringAndNumberParams, 0>;
-type NumberIHope = GetParameter<StringAndNumberParams, 1>;
-type Hmmm = GetParameter<StringAndNumberParams, 2>;
-
-///
-
-type UsingReal1 = Parameters<StringAndNumberParams>;
-
-type UsingReal2 = ReturnType<StringAndNumberParams>;
-
-///
-
-const actualFunction = (a: number, b: number[], c: string[][]) => {
-  return 12;
-};
-
-type StringArrArr = GetParameter<typeof actualFunction, 2>;
+type EmailOrSmsPayload2 = PayloadForNoDistributing<"email" | "sms">;
+//   ^?
 
 export {};
