@@ -4,18 +4,20 @@ const users = [
   { id: 3, name: "Marc", city: "Minneapolis", hobbies: ["Gymnastics"] },
   { id: 4, name: "Dustin", city: "Minneapolis", hobbies: ["Golf"] },
 ];
-function groupBy(items: any[], key: any) {
-  return items.reduce((acc, item) => {
-    const value = item[key];
 
-    if (!acc[value]) {
-      acc[value] = [];
+function groupBy<T>(items: T[], key: keyof T) {
+  const result: Record<string, T[]> = {};
+
+  for (const item of items) {
+    const value = String(item[key]);
+
+    if (!result[value]) {
+      result[value] = [];
     }
 
-    acc[value].push(item);
-
-    return acc;
-  }, {});
+    result[value].push(item);
+  }
+  return result;
 }
 
 groupBy(users, "id");
