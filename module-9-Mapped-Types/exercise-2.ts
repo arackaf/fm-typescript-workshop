@@ -1,15 +1,29 @@
-import { BillingInfo, Order, Payment, Product, User } from "./utils/types";
+const users = [
+  { id: 1, name: "Adam", city: "OKC", hobbies: ["Working out"] },
+  { id: 2, name: "Ken", city: "Wall Township", hobbies: ["Drinking"] },
+  { id: 3, name: "Marc", city: "Minneapolis", hobbies: ["Gymnastics"] },
+  { id: 4, name: "Dustin", city: "Minneapolis", hobbies: ["Golf"] },
+];
 
-type DbUser = {
-  id: number;
-  name: string;
-  createdAt: Date;
-};
+function groupBy<T>(items: T[], key: keyof T) {
+  const result: Record<string, T[]> = {};
 
-type PartialOf<T> = never;
+  for (const item of items) {
+    const value = String(item[key]);
 
-type PartialDbUser = PartialOf<DbUser>;
+    if (!result[value]) {
+      result[value] = [];
+    }
 
-export {};
+    result[value].push(item);
+  }
+  return result;
+}
+
+groupBy(users, "id");
+groupBy(users, "city");
+
+// @ts-expect-error
+groupBy(users, "hobbies");
 
 export {};
