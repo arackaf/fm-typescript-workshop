@@ -1,6 +1,8 @@
 // s is a string
 let s = "Hello";
 
+let b = true;
+
 // error
 // s = 12;
 
@@ -40,7 +42,7 @@ function getNumber(num: number): number {
 
 type NumToNumFn = (number: number) => number;
 
-const getNumber2: NumToNumFn = (num) => {
+const getNumber2: NumToNumFn = num => {
   return num + 2;
 };
 
@@ -73,6 +75,11 @@ boolOrString = "Hello";
 
 // types can hold literal valies
 type Yes = "YES";
+
+type True = true;
+type False = false;
+
+type TrueOrFalse = True | False;
 
 // this is the type with "YES" only. It's NOT a string. We'll see this when we discuss discriminated unions in a bit
 
