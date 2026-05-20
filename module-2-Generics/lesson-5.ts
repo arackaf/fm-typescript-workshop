@@ -8,7 +8,7 @@ type SideNavStorePayload = {
 
 export type SideNavStore = UseBoundStore<StoreApi<SideNavStorePayload>>;
 
-const useSideNavStoreDemo = create<SideNavStorePayload>()(set => ({
+export const useSideNavStore_Unused = create<SideNavStorePayload>()(set => ({
   isOpen: false,
   toggleIsOpen: () => set(state => ({ isOpen: !state.isOpen })),
 }));
