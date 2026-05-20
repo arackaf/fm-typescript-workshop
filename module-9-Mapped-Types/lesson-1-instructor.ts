@@ -26,6 +26,14 @@ const x: Junk = "Valid values are: 12";
 
 // Actual Mapped types
 
+type EventNames = "click" | "focus" | "blur";
+
+type Handlers = {
+  [K in EventNames as `on${Capitalize<K>}`]: (evt: K) => void;
+};
+
+// With objects
+
 type GoodChoices = {
   content: "Master Dot Dev";
   city: "Minneapolis";
