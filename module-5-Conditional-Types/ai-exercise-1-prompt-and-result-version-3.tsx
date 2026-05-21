@@ -38,6 +38,8 @@ export const Component: FC = () => {
         Link
       </Button>
       {/* @ts-expect-error */}
+      <Button variant="link">Link</Button>
+      {/* @ts-expect-error */}
       <Button variant="button" href="/">
         Link
       </Button>
