@@ -8,4 +8,26 @@ type Api = {
   getPayment: () => Promise<Payment>;
 };
 
+// -----------------------
+
+// ----------------------------------------
+
+type Props = {
+  a: number;
+  b: string;
+  c: boolean;
+};
+
+type OptProps = never;
+
+// ----------------------------------------
+
+type Opt = {
+  a?: number;
+  b?: string;
+  c?: boolean;
+};
+
+type ReqOpt = never;
+
 export {};
