@@ -18,8 +18,11 @@ type Props<V extends Variant> = {
   href: V extends "link" ? string : never;
 };
 
-const Button: FC<PropsWithChildren<Props<"link"> | Props<"button">>> = props =>
-  null;
+const Button: FC<
+  PropsWithChildren<Props<"link"> | Props<"button">>
+> = props => {
+  return <div>{/* TODO */}</div>;
+};
 
 export const Component: FC = () => {
   return (

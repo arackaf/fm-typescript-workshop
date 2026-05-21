@@ -31,7 +31,9 @@ export type Props =
   | (BaseProps<"link"> & PropsForVariant<"link">)
   | (BaseProps<"button"> & PropsForVariant<"button">);
 
-const Button: FC<PropsWithChildren<Props>> = props => null;
+const Button: FC<PropsWithChildren<Props>> = props => {
+  return <div>{/* TODO */}</div>;
+};
 
 export const Component: FC = () => {
   return (
