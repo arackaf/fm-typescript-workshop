@@ -6,6 +6,8 @@ type Api = {
   getOrder: () => Promise<Order>;
   getBillingInfo: () => Promise<BillingInfo>;
   getPayment: () => Promise<Payment>;
+  bad: () => void;
+  delete: () => void;
 };
 
 // -----------------------
