@@ -1,7 +1,5 @@
 import React, { FC, PropsWithChildren } from "react";
 
-// new type produced by composer-2.5-fast
-
 type Variant = "link" | "button";
 
 type BaseProps<V extends Variant> = {
