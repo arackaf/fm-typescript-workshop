@@ -1,6 +1,6 @@
-type Loader = {
-  load: (...args: any) => Promise<unknown>;
-  getUrl: (...args: any) => string;
+type Loader<Args extends unknown[]> = {
+  load: (...args: Args) => Promise<unknown>;
+  getUrl: (...args: Args) => string;
 };
 
 export {};
