@@ -5,23 +5,23 @@ import React, { FC, PropsWithChildren } from "react";
 // make this a conditional type - href should be required if variant is "link" but absent if "button"
 
 // new type produced by composer-2.5-fast
-type Variant = "link" | "button";
+// prompt:
 
-type BaseProps<V extends Variant> = {
-  variant: V;
+// make this a conditional type - href should be required if variant is "link" but absent if "button"
+
+// new type produced by composer-2.5-fast
+type BaseProps = {
   onClick?: () => void;
   className?: string;
   style?: React.CSSProperties;
   ariaLabel?: string;
 };
 
-type PropsForVariant<V extends Variant> = V extends "link"
-  ? { href: string }
-  : { href?: never };
+type PropsForVariant<V extends "link" | "button"> = BaseProps & {
+  variant: V;
+} & (V extends "link" ? { href: string } : { href?: never });
 
-export type Props =
-  | (BaseProps<"link"> & PropsForVariant<"link">)
-  | (BaseProps<"button"> & PropsForVariant<"button">);
+export type Props = PropsForVariant<"link"> | PropsForVariant<"button">;
 
 const Button: FC<PropsWithChildren<Props>> = props => {
   return <div>{/* TODO */}</div>;
