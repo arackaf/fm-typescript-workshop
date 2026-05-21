@@ -1,0 +1,43 @@
+import React, { FC, PropsWithChildren } from "react";
+
+// prompt:
+
+// make this a conditional type - href should be required if variant is "link" but absent if "button"
+
+// new type produced by composer-2.5-fast
+type Variant = "link" | "button";
+
+type BaseProps<V extends Variant> = {
+  variant: V;
+  onClick?: () => void;
+  className?: string;
+  style?: React.CSSProperties;
+  ariaLabel?: string;
+};
+
+type PropsForVariant<V extends Variant> = V extends "link"
+  ? { href: string }
+  : { href?: never };
+
+export type Props =
+  | (BaseProps<"link"> & PropsForVariant<"link">)
+  | (BaseProps<"button"> & PropsForVariant<"button">);
+
+const Button: FC<PropsWithChildren<Props>> = props => null;
+
+export const Component: FC = () => {
+  return (
+    <div>
+      <Button variant="link" href="/">
+        Link
+      </Button>
+      <Button variant="link" href="/" onClick={() => {}}>
+        Link
+      </Button>
+      {/* @ts-expect-error */}
+      <Button variant="button" href="/">
+        Link
+      </Button>
+    </div>
+  );
+};
