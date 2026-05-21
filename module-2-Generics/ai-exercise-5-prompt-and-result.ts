@@ -1,14 +1,14 @@
-type Loader<TArgs extends unknown[], TReturn = unknown> = {
+type Loader<TArgs extends readonly unknown[], TReturn = unknown> = {
   load: (...args: TArgs) => Promise<TReturn>;
   getUrl: (...args: TArgs) => string;
-  getPrefetchArgs: (cookies: Record<string, unknown>) => TArgs;
+  getPrefetchArgs: (cookies: Record<string, unknown>) => readonly [...TArgs];
 };
 
-type LoaderResult<TArgs extends unknown[]> = {
+type LoaderResult<TArgs extends readonly unknown[]> = {
   load: (...args: TArgs) => Promise<any>;
 };
 
-function createPrefetchLoader<Args extends unknown[]>(
+function createPrefetchLoader<const Args extends readonly unknown[]>(
   packet: Loader<Args>
 ): LoaderResult<Args> {
   return null as any;
