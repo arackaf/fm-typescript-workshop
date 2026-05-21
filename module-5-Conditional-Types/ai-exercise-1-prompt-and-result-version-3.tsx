@@ -1,0 +1,46 @@
+import React, { FC, PropsWithChildren } from "react";
+
+// new type produced by composer-2.5-fast
+
+/*
+Let's just have Props take a generic T constrained on Variant, and have it be BaseProps<T> & PropsForVariant<T>
+*/
+
+type Variant = "link" | "button";
+
+type BaseProps<V extends Variant> = {
+  variant: V;
+  onClick?: () => void;
+  className?: string;
+  style?: React.CSSProperties;
+  ariaLabel?: string;
+};
+
+type PropsForVariant<V extends Variant> = V extends "link"
+  ? { href: string }
+  : { href?: never };
+
+export type Props<T extends Variant> = BaseProps<T> & PropsForVariant<T>;
+
+const Button: FC<
+  PropsWithChildren<Props<"link"> | Props<"button">>
+> = props => {
+  return <div>{/* TODO */}</div>;
+};
+
+export const Component: FC = () => {
+  return (
+    <div>
+      <Button variant="link" href="/">
+        Link
+      </Button>
+      <Button variant="link" href="/" onClick={() => {}}>
+        Link
+      </Button>
+      {/* @ts-expect-error */}
+      <Button variant="button" href="/">
+        Link
+      </Button>
+    </div>
+  );
+};
