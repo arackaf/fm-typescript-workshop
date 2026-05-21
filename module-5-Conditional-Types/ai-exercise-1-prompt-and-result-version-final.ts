@@ -1,8 +1,3 @@
-// prompt:
-
-// make this a conditional type - href should be required if variant is "link" but absent if "button"
-
-// new type produced by composer-2.5-fast
 type Variant = "link" | "button";
 
 type BaseProps<V extends Variant> = {
@@ -18,5 +13,5 @@ type PropsForVariant<V extends Variant> = V extends "link"
   : { href?: never };
 
 export type Props =
-  | BaseProps<"link"> & PropsForVariant<"link">
-  | BaseProps<"button"> & PropsForVariant<"button">;
+  | (BaseProps<"link"> & PropsForVariant<"link">)
+  | (BaseProps<"button"> & PropsForVariant<"button">);
