@@ -1,3 +1,11 @@
+// prompt:
+
+/*
+Can we ensure that whatever is returned from this function is automatically inferred as a literal tuple type? 
+*/
+
+// updates from composer-2.5-fast
+
 type Loader<TArgs extends readonly unknown[], TReturn = unknown> = {
   load: (...args: TArgs) => Promise<TReturn>;
   getUrl: (...args: TArgs) => string;
